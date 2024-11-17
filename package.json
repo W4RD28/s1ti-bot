@@ -5,7 +5,7 @@
   "scripts": {
     "start": "bun src/index.ts",
     "dev": "bun --watch src/index.ts",
-    "deploy-command": "bun run src/deploy-commands.ts"
+    "deploy-commands": "bun run src/deploy-commands.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",

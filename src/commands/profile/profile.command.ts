@@ -1,5 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import type { Command } from "../../types/Command";
+import { UserProfileService } from "../../services/user-profile.service";
+
+const userProfileService: UserProfileService = new UserProfileService();
 
 export const command: Command = {
   data: new SlashCommandBuilder()
@@ -14,17 +17,14 @@ export const command: Command = {
       .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL() })
       .setTitle("User Profile")
       .setColor("#29ff52")
-      .addFields([
-        { name: "Username", value: user.username },
-        { name: "User ID", value: user.id },
-        { name: "Created Account", value: user.createdAt.toLocaleDateString() },
-      ])
       .setFooter({ text: "Requested by " + user.tag })
       .setTimestamp();
 
     if (member) {
+      const userProfile = await userProfileService.getUserProfile(user.id);
+
       embed.addFields([
-        { name: "Nickname", value: member.nickname || "None" },
+        { name: "Server Nickname", value: member.nickname || "None" },
         { name: "Joined Server", value: member?.joinedAt?.toLocaleDateString() || "Unknown" },
         { name: "Roles", value: member.roles.cache.map(role => role.name).join(", ") },
       ]);

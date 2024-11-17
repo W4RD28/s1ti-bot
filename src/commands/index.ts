@@ -14,7 +14,11 @@ for (const folder of commandFolders) {
 
     for (const file of files) {
       const { command } = require(path.join(folderPath, file)) as { command: Command };
-      commands.set(command.data.name, command);
+
+      if (command && command.data && command.data.name)
+        commands.set(command.data.name, command);
+      else 
+        console.error(`Command file ${file} does not export a valid command object.`);
     }
   }
 }
